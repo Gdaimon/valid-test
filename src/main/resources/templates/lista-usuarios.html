@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/base :: head"></head>
+<body>
+
+<nav th:replace="layout/base :: navbar"></nav>
+
+<div class="container">
+    <h3 th:text="${titulo}"></h3>
+    <div class="row">
+        <a class="btn btn-outline-danger col-sm-3 mt-4 ml-3 mb-2" th:href="@{/}"><i
+                class="far fa-arrow-alt-circle-left"></i> Crear Usuario</a>
+    </div>
+    <hr>
+    <form method="post" th:action="@{/actualizar}" th:object="${listaUsuarios}">
+        <table class="table table-hover table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Procesado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="usuario, iterador: ${usuarios}">
+                <th scope="row" th:text="${iterador.index + 1}"></th>
+                <td th:text="${usuario.nombre}"></td>
+                <td th:text="${usuario.apellido}"></td>
+                <td class="text-center">
+
+                    <input th:checked="${usuario.procesado}"
+                           th:id="${'listaUsuarios'+ iterador.index +'.procesado'+ (iterador.index +1)}"
+                           th:name="${'listaUsuarios[' + iterador.index +'].procesado'}"
+                           th:value="${true}"
+                           type="checkbox"
+                    />
+
+                    <input th:name="${'_listaUsuarios[' + iterador.index +'].procesado'}"
+                           th:value="${'on'}"
+                           type="hidden"/>
+
+
+                </td>
+                <input
+                        th:name="${'listaUsuarios[' + iterador.index +'].id'}"
+                        th:value="${usuario.id}" type="hidden"/>
+
+            </tr>
+
+            </tbody>
+        </table>
+        <div class="form-group row">
+            <button class="offset-9 btn btn-outline-primary">Procesar <i class="fas fa-cog"></i></button>
+        </div>
+
+
+    </form>
+</div>
+<div th:replace="layout/base :: footer"></div>
+</body>
+</html>
